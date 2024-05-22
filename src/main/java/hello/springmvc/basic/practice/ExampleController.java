@@ -1,9 +1,10 @@
 package hello.springmvc.basic.practice;
 
 
-import hello.springmvc.basic.config.scheduler.SchedulerConfiguration;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
@@ -11,10 +12,6 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.DayOfWeek;
-import java.util.Arrays;
-import java.util.List;
 
 
 @RestController
