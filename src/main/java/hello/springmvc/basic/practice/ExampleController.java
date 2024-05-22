@@ -49,7 +49,7 @@ public class ExampleController {
 
         // 이름 길이의 합계 계산
         int totalLength = names.stream().mapToInt(String::length).sum();
-        System.out.println("Total length 도of names: " + totalLength); // 20
+        System.out.println("Total length of names: " + totalLength); // 20
 
         // for 문 스트림이용
         int[] numberArray = {8, 7, 1, 557, 12};
