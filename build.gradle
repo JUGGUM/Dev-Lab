@@ -20,11 +20,11 @@ configurations {
 repositories {
 	mavenCentral()
 }
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	testImplementation 'org.projectlombok:lombok:1.18.28'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -37,6 +37,16 @@ dependencies {
 	// spring-integration
 	implementation 'org.springframework.integration:spring-integration-core:5.5.16'
 	implementation 'org.springframework.integration:spring-integration-file:5.5.16'
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2' // spring-boot3.2버전에
+	// WebSocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	// Spring Boot에서 Redis를 사용하기 위한 의존성입니다.
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// Spring Session을 Redis에 저장하기 위한 의존성입니다.
+	implementation 'org.springframework.session:spring-session-data-redis'
+	// cache
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
 }
 
 tasks.named('test') {
