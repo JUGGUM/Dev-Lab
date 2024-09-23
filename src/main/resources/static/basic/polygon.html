@@ -14,7 +14,7 @@
 <button type="button" onclick="move(14679304.585522275, 4472545.1240446,14);" >독도</button>
 </body>
 <script type="text/javascript">
-  //TODO 폴리곤을 그리면 위치코드가 반납되어지는데 주소를 검색했을때 해당 범위에 포함이 되어지는지?
+
   let vmap = new vw.ol3.Map("vmap", vw.ol3.MapOptions);
 
   let coordinates = [[14097479.31202193, 4269696.333845764],
@@ -47,7 +47,7 @@
   vmap.addLayer(vector_layer); // 폴리곤 객체 등록
 
   function move(x,y,z){
-    var _center = [ x, y ];
+    const _center = [x, y];
 
     var z = z;
     var pan = ol.animation.pan({
@@ -58,18 +58,18 @@
     vmap.getView().setCenter(_center);
     setTimeout("fnMoveZoom()", 3000);
   }
-
   vmap.on("click", function(evt) {
 
     let coordinate = evt.coordinate //좌표 정보
     let pixel = evt.pixel //선택한 픽셀 값
 
-    console.log()
+    console.log("좌표정보===============", coordinate)
+    console.log("픽셀값===============", pixel)
 
-    vmap.forEachFeatureAtPixel(pixel, function(feature, layer) {
+/*    vmap.forEachFeatureAtPixel(pixel, function(feature, layer) {
       let name = feature.get("name");
       alert(name);
-    });
+    });*/
   })
 
   function fnMoveZoom() {
@@ -78,6 +78,5 @@
       vmap.getView().setZoom(14);
     }
   }
-
 </script>
 </html>
