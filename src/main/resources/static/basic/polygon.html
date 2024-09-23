@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script
+      src="https://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=0278F082-9F27-309A-A528-11DC46771FA2&domain=http://localhost:63342/"></script>
+  <!-- <script type="text/javascript" src="https://cesium.com/downloads/cesiumjs/releases/1.82/Build/Cesium/Cesium.js"></script>-->
+</head>
+<body>
+<div id="vmap" style="width:100%;height:500px;left:0px;top:0px"></div>
+<input type="text">
+<button>검색</button>
+<button type="button" onclick="move(14679304.585522275, 4472545.1240446,14);" >독도</button>
+</body>
+<script type="text/javascript">
+  //TODO 폴리곤을 그리면 위치코드가 반납되어지는데 주소를 검색했을때 해당 범위에 포함이 되어지는지?
+  let vmap = new vw.ol3.Map("vmap", vw.ol3.MapOptions);
+
+  let coordinates = [[14097479.31202193, 4269696.333845764],
+    [14097479.31202193, 4291146.428300351],
+    [14111358.784904309, 4291146.428300351],
+    [14111358.784904309, 4269696.333845764]]; //좌표 설정
+
+  let polygon_feature = new ol.Feature({
+    geometry: new ol.geom.Polygon([coordinates])
+  }); // polygon_feature 생성
+
+  let style = new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: [0, 255, 0, .7],
+      width: 3
+    }),
+    fill: new ol.style.Fill({
+      color: [255, 0, 0, .4]
+    })
+  }); // 스타일 정의
+
+  polygon_feature.setStyle(style); // 정의한 스타일을 적용
+  console.log(polygon_feature)
+
+  let vector_layer = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      features: [polygon_feature]
+    })
+  })
+  vmap.addLayer(vector_layer); // 폴리곤 객체 등록
+
+  function move(x,y,z){
+    var _center = [ x, y ];
+
+    var z = z;
+    var pan = ol.animation.pan({
+      duration : 2000,
+      source : (vmap.getView().getCenter())
+    });
+    vmap.beforeRender(pan);
+    vmap.getView().setCenter(_center);
+    setTimeout("fnMoveZoom()", 3000);
+  }
+
+  vmap.on("click", function(evt) {
+
+    let coordinate = evt.coordinate //좌표 정보
+    let pixel = evt.pixel //선택한 픽셀 값
+
+    console.log()
+
+    vmap.forEachFeatureAtPixel(pixel, function(feature, layer) {
+      let name = feature.get("name");
+      alert(name);
+    });
+  })
+
+  function fnMoveZoom() {
+    zoom = vmap.getView().getZoom();
+    if (16 > zoom) {
+      vmap.getView().setZoom(14);
+    }
+  }
+
+</script>
+</html>
