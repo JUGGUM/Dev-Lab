@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script
+      src="https://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=0278F082-9F27-309A-A528-11DC46771FA2&domain=http://localhost:63342/"></script>
+</head>
+<body>
+<div id="vmap" style="width:100%;height:500px;left:0px;top:0px"></div>
+<button type="button" onclick="completePolygon()">폴리곤 생성 완료</button>
+</body>
+<script type="text/javascript">
+  let vmap = new vw.ol3.Map("vmap", vw.ol3.MapOptions);
+  if (typeof vmap === 'undefined') {
+    vmap = new vw.ol3.Map("vmap", vw.ol3.MapOptions);
+  }
+
+  // 폴리곤 좌표값을 저장할 배열
+  let coordinates = [];
+
+  // 스타일 정의
+  let style = new ol.style.Style({
+    stroke: new ol.style.Stroke({
+      color: [0, 255, 0, .7],
+      width: 3
+    }),
+    fill: new ol.style.Fill({
+      color: [255, 0, 0, .4]
+    })
+  });
+
+  // 지도 클릭 이벤트 핸들러
+  vmap.on("click", function(evt) {
+    let coordinate = evt.coordinate;  // 클릭한 좌표 정보 가져오기
+    coordinates.push(coordinate);     // 좌표를 coordinates 배열에 추가
+    console.log("좌표 추가: ", coordinate);
+    console.log("현재 좌표 배열: ", coordinates);
+
+    // 마커를 지도에 표시하여 클릭된 위치를 시각적으로 보여줌
+    let marker = new ol.Feature({
+      geometry: new ol.geom.Point(coordinate)
+    });
+
+    marker.setStyle(new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 5,
+        fill: new ol.style.Fill({ color: 'blue' }),
+        stroke: new ol.style.Stroke({ color: 'white', width: 2 })
+      })
+    }));
+
+    let vectorLayer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: [marker]
+      })
+    });
+
+    vmap.addLayer(vectorLayer);  // 클릭한 좌표에 마커 추가
+  });
+
+  // 폴리곤 생성 완료 버튼을 눌렀을 때 폴리곤 생성
+  function completePolygon() {
+    if (coordinates.length < 3) {
+      alert("폴리곤을 생성하려면 최소 3개의 좌표가 필요합니다.");
+      return;
+    }
+
+    // 마지막 점과 첫 번째 점을 연결하여 폴리곤을 완성
+    coordinates.push(coordinates[0]);
+
+    let polygonFeature = new ol.Feature({
+      geometry: new ol.geom.Polygon([coordinates])
+    });
+
+    polygonFeature.setStyle(style);
+
+    let vectorLayer = new ol.layer.Vector({
+      source: new ol.source.Vector({
+        features: [polygonFeature]
+      })
+    });
+    console.log("polygonFeature=====================",polygonFeature);
+    console.log("vectorLayer=====================",vectorLayer);
+
+    vmap.addLayer(vectorLayer);  // 폴리곤을 지도에 추가
+    console.log("폴리곤 생성 완료: ", coordinates);
+
+    // coordinates 배열 초기화 (다음 폴리곤을 위한 준비)
+    coordinates = [];
+  }
+</script>
+</html>
