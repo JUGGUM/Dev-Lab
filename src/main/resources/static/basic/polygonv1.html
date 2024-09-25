@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
@@ -8,7 +8,26 @@
 </head>
 <body>
 <div id="vmap" style="width:100%;height:500px;left:0px;top:0px"></div>
-<button type="button" onclick="completePolygon()">폴리곤 생성 완료</button>
+<button type="button" onclick="completePolygon()">폴리곤 생성</button>
+<form id="searchForm" action="#" class="form_data" onsubmit="return false;">
+  <input type="hidden" name="request" value="search"/>
+  <input type="hidden" name="size" value="100"/>
+  <input type="hidden" name="page" value="1"/>
+  <input type="hidden" name="type" value="address"/>
+  <input type="hidden" name="category" value="parcel"/>
+  <input type="hidden" name="format" value="json"/>
+  <input type="hidden" name="errorformat" value="json"/>
+  <input type="hidden" name="apiKey" value="0278F082-9F27-309A-A528-11DC46771FA2"/>
+
+  <div>
+    <input type="text" id="searchValue" name="query" placeholder="검색어를 입력해주세요."/>
+    <button id="searchButton" class="btn" onclick="search();">검색</button>
+    <br>
+    <span> 결과 : </span>
+    <span id="res-cnt"></span>
+  </div>
+</form>
+<ul id="searchResults"></ul>
 </body>
 <script type="text/javascript">
   let vmap = new vw.ol3.Map("vmap", vw.ol3.MapOptions);
@@ -82,12 +101,96 @@
     });
     console.log("polygonFeature=====================",polygonFeature);
     console.log("vectorLayer=====================",vectorLayer);
-
+    console.log("vectorLayer.ol_uid=====================",vectorLayer.ol_uid);
     vmap.addLayer(vectorLayer);  // 폴리곤을 지도에 추가
     console.log("폴리곤 생성 완료: ", coordinates);
 
     // coordinates 배열 초기화 (다음 폴리곤을 위한 준비)
     coordinates = [];
+  }
+  function search() {
+
+    const searchValue = document.getElementById("searchValue");
+    if (searchValue.value === "") {
+      alert('검색 내용이 없습니다.');
+      return false;
+    }
+    /*https://burndogfather.com/267 !!!!!!!*/
+
+    const encodedValue = encodeURIComponent(searchValue.value);
+    const form = document.getElementById('searchForm');
+    form.setAttribute('query', encodedValue);
+
+    /* https://www.vworld.kr/dev/v4dv_search2_s001.do
+    * 해당값 반환하는걸로 폴리곤내역에서 일치하는지 확인 */
+    console.log("searchForm===========",form)
+    $.ajax({
+      type: "get",
+      url: "https://api.vworld.kr/req/search",
+      data: $('#searchForm').serialize(),
+      dataType: 'json',
+      async: false,
+      success: function (data) {
+        let searchResults = $('#searchResults');
+        searchResults.empty(); // 기존 결과를 지우기
+
+        features = []; // 기존 피처를 초기화
+
+        for (let o in data.response.result.items) {
+          if (o == 0) {
+            move(data.response.result.items[o].point.x * 1, data.response.result.items[o].point.y * 1);
+          }
+
+          // 검색 결과를 li 태그로 변환하여 ul에 추가
+          let item = data.response.result.items[o];
+          let listItem = $(`<litoken interpolation">${item.point.x}, ${item.point.y}, 1)"><strong>${item.title}</strong> <p>${item.address.road || item.address.parcel}</p></li>`);
+          searchResults.append(listItem);
+
+          // Feature 객체에 저장하여 활용
+          features[o] = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.transform([item.point.x * 1, item.point.y * 1], 'EPSG:4326', "EPSG:3857")),
+            title: item.title,
+            parcel: item.address.parcel,
+            road: item.address.road,
+            category: item.category,
+            point: item.point
+          });
+          features[o].set("id", item.id);
+
+          let iconStyle = new ol.style.Style({
+            image: new ol.style.Icon({
+              anchor: [0.5, 10],
+              anchorXUnits: 'fraction',
+              anchorYUnits: 'pixels',
+              src: 'http://map.vworld.kr/images/ol3/marker_blue.png'
+            })
+          });
+          features[o].setStyle(iconStyle);
+        }
+
+        let vectorSource = new ol.source.Vector({
+          features: features
+        });
+
+        let vectorLayer = new ol.layer.Vector({
+          source: vectorSource
+        });
+
+        vectorLayer.set("vectorLayer", "search_vector");
+
+        map.getLayers().forEach(function (layer) {
+          if (layer.get("vectorLayer") == "search_vector") {
+            map.removeLayer(layer);
+          }
+        });
+        map.addLayer(vectorLayer);
+
+        console.log(data.response.result.items.length);
+        const resCnt = document.getElementById('res-cnt');
+        resCnt.innerText = data.response.result.items.length;
+      },
+      error: function (xhr, stat, err) {}
+    });
   }
 </script>
 </html>
