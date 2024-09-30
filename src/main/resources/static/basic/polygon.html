@@ -30,6 +30,9 @@
 
   let polygon = null;
   let coordinates = []; // 폴리곤 좌표값을 저장할 배열
+  let polygonLayer = null;
+
+  let vectorSource = new ol.source.Vector();
 
   let style = new ol.style.Style({
     stroke: new ol.style.Stroke({
@@ -40,6 +43,13 @@
       color: [255, 0, 0, .4]
     })
   });
+
+  // 마커들을 담는 vectorLayer 정의 (한 번만 생성)
+  let vectorLayer = new ol.layer.Vector({
+    source: vectorSource
+  });
+
+  vmap.addLayer(vectorLayer); // 마커 레이어를 지도에 추가
 
   // 지도 클릭 이벤트 핸들러
   vmap.on("click", function(evt) {
@@ -61,13 +71,7 @@
       })
     }));
 
-    let vectorLayer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: [marker]
-      })
-    });
-
-    vmap.addLayer(vectorLayer);  // 클릭한 좌표에 마커 추가
+    vectorSource.addFeature(marker); // 클릭한 좌표에 마커 추가
   });
 
   // 폴리곤 생성 함수
@@ -76,6 +80,14 @@
       alert("폴리곤을 생성하려면 최소 3개의 좌표가 필요합니다.");
       return;
     }
+
+    // 이전에 생성된 폴리곤 레이어가 있으면 지도에서 제거
+    if (polygonLayer) {
+      vmap.removeLayer(polygonLayer);
+    }
+
+    // 폴리곤을 그리기 전에 마커를 모두 제거
+    vectorSource.clear();
 
     // 마지막 점과 첫 번째 점을 연결하여 폴리곤을 완성
     coordinates.push(coordinates[0]);
@@ -86,17 +98,19 @@
 
     polygonFeature.setStyle(style);
 
-    let vectorLayer = new ol.layer.Vector({
+    polygonLayer = new ol.layer.Vector({
       source: new ol.source.Vector({
         features: [polygonFeature]
       })
     });
-    vmap.addLayer(vectorLayer);  // 폴리곤을 지도에 추가
+
+    vmap.addLayer(polygonLayer);  // 폴리곤을 지도에 추가
     console.log("폴리곤 생성 완료: ", coordinates);
 
     // 좌표 배열 초기화
     coordinates = [];
   }
+
 
   function search() {
     const searchValue = document.getElementById("searchValue");
