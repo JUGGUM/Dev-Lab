@@ -1,5 +1,6 @@
 package hello.springmvc.basic.domain.movie;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,7 @@ public class MovieService {
 
     //데이터 조회함과 동시에 캐시에 저장
     @Cacheable(value = "movie")
-    public Movie get(Long id) {
-        return movieRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("no book"));
+    public Optional<Movie> get(Long id) {
+        return movieRepository.findById(id);
     }
 }
