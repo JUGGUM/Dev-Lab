@@ -1,7 +1,7 @@
 package hello.springmvc.basic.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hello.springmvc.basic.HelloData;
+import hello.springmvc.basic.domain.HelloData;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
 package hello.springmvc.basic.request;
 
-import hello.springmvc.basic.HelloData;
+import hello.springmvc.basic.domain.HelloData;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
