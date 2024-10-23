@@ -10,10 +10,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling // 스케줄러 기능 활성화
 @EnableBatchProcessing // 배치 기능 활성화
 @ConfigurationPropertiesScan // class path 존재하는 모든 ConfigurationProperties Scan(필수❗️)
-public class SpringmvcApplication {
+public class DevLabApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringmvcApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DevLabApplication.class, args);
+    }
 
 }
