@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SchedulerConfiguration {
+public class SchedulerConfig {
 
     private final DeviceService deviceService;
 
