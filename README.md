@@ -10,7 +10,7 @@
 ## RabbitMQ
 
 ## Vmap-Polygon
-<img src="./src/main/resources/static/polygon.png", height="200px", width="200px">
+![Polygon](./src/main/resources/static/polygon.png)
 
 ## Scheduler
 
