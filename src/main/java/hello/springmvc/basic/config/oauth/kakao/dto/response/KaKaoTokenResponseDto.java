@@ -1,4 +1,4 @@
-package hello.springmvc.basic.config.oauth.kakao.dto;
+package hello.springmvc.basic.config.oauth.kakao.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
