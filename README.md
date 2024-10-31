@@ -2,7 +2,7 @@
 실무에 도움이 될만한 기능을 실습하고 습득합니다.
 
 <div align=center><h2>📚 STACKS</h2></div>
-<div align=center> 
+<div align=center>  
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
   <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
   <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
