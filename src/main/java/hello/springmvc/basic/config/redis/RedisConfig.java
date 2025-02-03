@@ -18,7 +18,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 public class RedisConfig {
     private final RedisProperties redisProperties;
 
-    // RedisProperties로 yaml에 저장한 host, post를 연결
+    // RedisProperties 로 yaml에 저장한 host, post를 연결
     // Lettuce 를 이용해서 Redis에 접속
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {

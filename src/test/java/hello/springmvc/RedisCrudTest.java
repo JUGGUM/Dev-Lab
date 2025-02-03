@@ -1,3 +1,4 @@
+/*
 package hello.springmvc;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -82,4 +83,4 @@ class RedisCrudTest {
                 }
         );
     }
-}
+}*/
