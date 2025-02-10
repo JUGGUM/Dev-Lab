@@ -1,10 +1,8 @@
 package hello.springmvc.basic.config.oauth.naver.controller.api;
 
-import hello.springmvc.basic.config.oauth.kakao.dto.response.KaKaoUserInfoResponseDto;
+import hello.springmvc.basic.config.error.exception.UserNotFoundException;
 import hello.springmvc.basic.config.oauth.naver.dto.response.NaverUserInfoResponseDto;
 import hello.springmvc.basic.config.oauth.naver.service.NaverService;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

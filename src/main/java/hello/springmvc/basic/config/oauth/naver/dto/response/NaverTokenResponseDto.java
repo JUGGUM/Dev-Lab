@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NaverTokenResponseDto {
+
     @JsonProperty("access_token")
     public String accessToken;
 

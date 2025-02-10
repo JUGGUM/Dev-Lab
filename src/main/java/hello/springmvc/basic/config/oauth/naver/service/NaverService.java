@@ -6,12 +6,9 @@ import io.netty.handler.codec.http.HttpHeaderValues;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -48,9 +45,9 @@ public class NaverService {
                 .bodyToMono(NaverTokenResponseDto.class)
                 // Mono로 응답 Body를 처리 // RequestBody 내용이 json으로 직렬화되어 들어간다.
                 .block(); // Mono는 원래 비동기지만 동기 처리로 변환하여 동기적으로 기다렸다가 결과반환
-        log.info(" [Naver Service] Access Token ------> {}",
+        log.info(" [ Naver Service ] Access Token ------> {}",
                 naverTokenResponseDto.getAccessToken());
-        log.info(" [Naver Service] Refresh Token ------> {}",
+        log.info(" [ Naver Service ] Refresh Token ------> {}",
                 naverTokenResponseDto.getRefreshToken());
         return naverTokenResponseDto.getAccessToken();
     }
@@ -70,9 +67,12 @@ public class NaverService {
                 .bodyToMono(NaverUserInfoResponseDto.class)
                 .block();
 
-        log.info("[ Naver Service ] Auth ID ---> {} ", naverUserInfoResponseDto.getResponse().getId());
-        log.info("[ Naver Service ] NickName ---> {} ", naverUserInfoResponseDto.getResponse().getNickname());
-        log.info("[ Naver Service ] Email ---> {} ", naverUserInfoResponseDto.getResponse().getEmail());
+        log.info("[ Naver Service ] Auth ID ---> {} ",
+                naverUserInfoResponseDto.getResponse().getId());
+        log.info("[ Naver Service ] NickName ---> {} ",
+                naverUserInfoResponseDto.getResponse().getNickname());
+        log.info("[ Naver Service ] Email ---> {} ",
+                naverUserInfoResponseDto.getResponse().getEmail());
 
         return naverUserInfoResponseDto;
     }
