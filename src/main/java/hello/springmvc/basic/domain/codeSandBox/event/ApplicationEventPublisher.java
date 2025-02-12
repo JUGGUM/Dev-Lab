@@ -1,4 +1,4 @@
-package hello.springmvc.basic.codeSandBox.event;
+package hello.springmvc.basic.domain.codeSandBox.event;
 
 import org.springframework.context.ApplicationEvent;
 
