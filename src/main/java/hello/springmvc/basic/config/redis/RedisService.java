@@ -16,21 +16,34 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class RedisService {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
+
+    public String getData(String key) { // key를 통해 value(데이터)를 얻는다.
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        return valueOperations.get(key);
+    }
+
+    public void setDataExpire(String key, String value, long duration) {
+        //  duration 동안 (key, value)를 저장한다.
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        Duration expireDuration = Duration.ofMillis(duration);
+        valueOperations.set(key, value, expireDuration);
+    }
+
 
     public void setValues(String key, String data) {
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        ValueOperations<String, String> values = redisTemplate.opsForValue();
         values.set(key, data);
     }
 
     public void setValues(String key, String data, Duration duration) {
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        ValueOperations<String, String> values = redisTemplate.opsForValue();
         values.set(key, data, duration);
     }
 
     @Transactional(readOnly = true)
     public String getValues(String key) {
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
+        ValueOperations<String, String> values = redisTemplate.opsForValue();
         if (values.get(key) == null) {
             return "false";
         }
