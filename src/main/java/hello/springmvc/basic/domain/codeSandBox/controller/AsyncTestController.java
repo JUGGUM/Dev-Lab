@@ -35,4 +35,17 @@ public class AsyncTestController {
         asyncTestService.syncTest();
         return "syncTest...";
     }
+
+    /**
+     * 쓰레드풀 테스트
+     * 쓰레드풀을 보면 순서대로 찍히지않는다.
+     * 그리고 직접설정한 쓰레드풀로 작동함을알수있음
+     */
+    @GetMapping("/thread/async")
+    public String threadPoolTest() {
+        for(int i=0; i<100; i++) {
+            asyncTestService.asyncTest(i);
+        }
+        return "asyncThreadTaskExecutor...";
+    }
 }

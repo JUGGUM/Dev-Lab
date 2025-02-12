@@ -22,4 +22,14 @@ public class AsyncConfig implements AsyncConfigurer {
         executor.initialize();
         return executor;
     }
+
+    @Bean(name = "asyncThreadTaskExecutor")
+    public Executor asyncThreadTaskExecutor() {
+        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+        threadPoolTaskExecutor.setCorePoolSize(8); // 대기타고있는 쓰레드수
+        threadPoolTaskExecutor.setMaxPoolSize(8); // 최대쓰레드수
+        // 해당 부분은 yaml 파일에서도 설정가능
+        threadPoolTaskExecutor.setThreadNamePrefix("g-executor-v1-");
+        return threadPoolTaskExecutor;
+    }
 }

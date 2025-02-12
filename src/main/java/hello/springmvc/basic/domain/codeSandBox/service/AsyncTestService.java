@@ -30,4 +30,9 @@ public class AsyncTestService {
             throw new RuntimeException(e);
         }
     }
+
+    @Async("asyncThreadTaskExecutor")
+    public void asyncTest(int i) {
+        log.info("async test: {}", i);
+    }
 }
