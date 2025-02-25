@@ -1,4 +1,4 @@
-package hello.springmvc.basic.codeSandBox.controller;
+package hello.springmvc.basic.domain.codeSandBox.controller;
 
 
 import java.util.Arrays;
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.ExecutorService;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -124,4 +125,46 @@ public class ExampleController {
         stack.size();
         stack.isEmpty();
     }
+/*
+    @PostMapping("/users/validation/status")
+    public ResponseEntity<Map<String, String>> validateUserList() {
+        Map<String, String> response = new HashMap<>();
+        AtomicInteger addedCount = new AtomicInteger();
+        AtomicInteger updatedCount = new AtomicInteger();
+
+        List<GroupwareUserResponseDto> onlineUsers = groupWareService.findUsersByOnlineStatus();
+
+        if (onlineUsers.isEmpty()) {
+            log.warn("No online users found");
+            throw new UserNotFoundException();
+        }
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);  // 10개의 스레드를 가진 풀을 생성
+
+        List<Callable<Void>> tasks = onlineUsers.stream().map(onlineUser -> (Callable<Void>) () -> {
+            if (!giftCardService.isUserExisted(onlineUser)) {
+                giftCardService.addGiftCardUser(onlineUser);
+                addedCount.getAndIncrement();
+            } else {
+                giftCardService.updateGiftCardUser(onlineUser);
+                updatedCount.getAndIncrement();
+            }
+            return null;
+        }).collect(Collectors.toList());
+
+        try {
+            // 모든 작업을 실행
+            executorService.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            log.error("Error processing users", e);
+            Thread.currentThread().interrupt();
+        } finally {
+            executorService.shutdown();
+        }
+
+        response.put("message", String.format("Users processed: %d added, %d updated.", addedCount.get(), updatedCount.get()));
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }*/
+
 }
