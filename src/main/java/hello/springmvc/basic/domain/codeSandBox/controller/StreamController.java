@@ -1,4 +1,4 @@
-package hello.springmvc.basic.codeSandBox.controller;
+package hello.springmvc.basic.domain.codeSandBox.controller;
 
 import java.util.ArrayList;
 import java.util.List;
