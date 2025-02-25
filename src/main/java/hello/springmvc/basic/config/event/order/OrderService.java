@@ -1,25 +1,22 @@
-package hello.springmvc.basic.config.event;
+package hello.springmvc.basic.config.event.order;
 
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class OrderService {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    @Autowired
-    public OrderService(ApplicationEventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
-    }
     public void createOrder(Long orderId) {
         // 주문 생성 로직
         // ...
-        log.error("OrderService.createOrder 호출 ==================");
+        log.error("Order created with ID: {}", orderId);
         // 이벤트 발행
         eventPublisher.publishEvent(new OrderCreatedEvent(this, orderId));
     }

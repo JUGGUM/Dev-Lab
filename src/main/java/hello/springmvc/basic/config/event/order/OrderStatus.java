@@ -1,4 +1,4 @@
-package hello.springmvc.basic.config.event;
+package hello.springmvc.basic.config.event.order;
 
 public enum OrderStatus {
     NEW,            // 새로운 주문

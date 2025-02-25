@@ -1,4 +1,4 @@
-package hello.springmvc.basic.config.event;
+package hello.springmvc.basic.config.event.order;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationEvent;
 public class OrderCreatedEvent extends ApplicationEvent {
 
     private final Long orderId;
+
     public OrderCreatedEvent(Object source, Long orderId) {
         super(source);
         this.orderId = orderId;

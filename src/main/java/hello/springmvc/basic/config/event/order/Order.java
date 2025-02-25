@@ -1,4 +1,4 @@
-package hello.springmvc.basic.config.event;
+package hello.springmvc.basic.config.event.order;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
