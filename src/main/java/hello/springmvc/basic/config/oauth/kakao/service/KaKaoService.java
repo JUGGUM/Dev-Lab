@@ -2,6 +2,7 @@ package hello.springmvc.basic.config.oauth.kakao.service;
 
 import hello.springmvc.basic.config.oauth.kakao.dto.response.KaKaoTokenResponseDto;
 import hello.springmvc.basic.config.oauth.kakao.dto.response.KaKaoUserInfoResponseDto;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class KaKaoService {
         KAKAO_AUTH_USER_URL_HOST = "https://kapi.kakao.com";
     }
 
+    @CircuitBreaker(name = "searchProductCircuitBreaker", fallbackMethod = "fallback")
     public String getAccessTokenFromKaKao(String code) {
         KaKaoTokenResponseDto kakaoTokenResponseDto = WebClient.create(KAKAO_AUTH_TOKEN_URL_HOST)
                 .post().uri(uriBuilder -> uriBuilder.scheme("https").path("/oauth/token")
