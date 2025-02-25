@@ -1,4 +1,4 @@
-package hello.springmvc.basic.request;
+package hello.springmvc.basic.domain.request;
 
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;

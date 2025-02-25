@@ -1,4 +1,4 @@
-package hello.springmvc.basic.response;
+package hello.springmvc.basic.domain.response;
 
 import hello.springmvc.basic.domain.HelloData;
 import jakarta.servlet.http.HttpServletResponse;
